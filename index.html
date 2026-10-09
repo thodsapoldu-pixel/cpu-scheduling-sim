@@ -132,13 +132,11 @@
             font-feature-settings: "tnum";
         }
 
-        /* Keyboard Focus Visible */
         :focus-visible {
             outline: 2px solid var(--accent-green);
             outline-offset: 2px;
         }
 
-        /* Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.001ms !important;
@@ -148,7 +146,6 @@
             }
         }
 
-        /* Idle stripe styling */
         .gantt-idle-stripe {
             background: repeating-linear-gradient(
                 -45deg,
@@ -161,7 +158,6 @@
             border-style: dashed !important;
         }
 
-        /* Theme toggle button */
         .theme-btn {
             background: var(--accent-light);
             border: 1px solid var(--accent-light-border);
@@ -183,16 +179,12 @@
 </head>
 <body class="py-10 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto space-y-8">
-        
-        <!-- Header -->
         <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-gray-200/60 pb-5">
             <div>
                 <span class="text-xs font-semibold tracking-wider text-[#3B6E52] uppercase bg-[#EBF3ED] px-3 py-1 rounded-full border border-[#D5E3DA]">PERSONAL TASK SCHEDULER</span>
                 <h1 id="main-title" class="text-2xl sm:text-3xl font-bold text-gray-900 mt-2" style="color: var(--text-heading);">เว็บการจัดตารางงานส่วนบุคคลด้วย CPU Scheduling</h1>
-                <p class="text-sm text-gray-500 mt-1" style="color: var(--text-muted);">เปรียบเทียบตารางทำงานในแต่ละวิชาเพื่อลดเวลารอคอยและบริหารเวลาอย่างมีประสิทธิภาพ</p>
+                <p class="text-sm text-gray-500 mt-1" style="color: var(--text-muted);">เปรียบเทียบตารางทำงานในแต่ละวิชาเพื่อเลือกอัลกอริทึมที่เหมาะสม</p>
             </div>
-            
-            <!-- ด้านขวา: ปุ่มสลับอัลกอริทึม & ปุ่มธีม -->
             <div class="flex flex-col items-end gap-2 shrink-0">
                 <div class="flex items-center gap-2">
                     <button id="themeToggleBtn" onclick="toggleTheme()" class="theme-btn">
@@ -200,17 +192,15 @@
                         <span id="themeLabel">ธีม: อัตโนมัติ</span>
                     </button>
                 </div>
-                <!-- ปุ่มเลือกอัลกอริทึม -->
                 <div class="flex gap-1.5 bg-[#EBF3ED] p-1.5 rounded-xl border border-[#D5E3DA] shrink-0" style="background: var(--accent-light); border-color: var(--accent-light-border);">
                     <button onclick="changeAlgorithm('rr')" id="btn-rr" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[#3B6E52] text-white transition-all">Round Robin</button>
                     <button onclick="changeAlgorithm('sjf')" id="btn-sjf" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-[#3B6E52] hover:bg-white/50 transition-all" style="color: var(--accent-green);">SJF</button>
                     <button onclick="changeAlgorithm('fcfs')" id="btn-fcfs" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-[#3B6E52] hover:bg-white/50 transition-all" style="color: var(--accent-green);">FCFS</button>
-                    <button onclick="changeAlgorithm('compare')" id="btn-compare" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-[#3B6E52] hover:bg-white/50 transition-all" style="color: var(--accent-green);">เปรียบเทียบทั้งหมด</button>
+                    <button onclick="changeAlgorithm('compare')" id="btn-compare" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-[#3B6E52] hover:bg-white/50 transition-all" style="color: var(--accent-green);">Compare</button>
                 </div>
             </div>
         </header>
 
-        <!-- SECTION 01: ตั้งค่าโจทย์การบ้าน/วิชา พร้อมปุ่มหาผลลัพธ์ -->
         <div class="card-box p-6 sm:p-8 space-y-6">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div class="flex items-center gap-3">
@@ -222,12 +212,10 @@
                 </div>
                 
                 <div class="flex items-center gap-3 flex-wrap">
-                    <!-- ช่องปรับค่า Quantum -->
                     <div id="quantum-box" class="flex items-center gap-3 bg-[#EBF3ED] px-4 py-2 rounded-xl border border-[#D5E3DA]" style="background: var(--accent-light); border-color: var(--accent-light-border);">
                         <label class="text-xs font-bold text-[#3B6E52]" style="color: var(--accent-green);">TIME QUANTUM (Q)</label>
                         <input type="number" id="quantum" value="2" min="1" step="1" class="w-14 text-center font-bold text-[#3B6E52] bg-white border border-[#D5E3DA] rounded-lg py-1 tabular-nums input-box">
                     </div>
-                    <!-- ปุ่มหาผลลัพธ์ -->
                     <button onclick="runSimulation()" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-[#3B6E52] text-white hover:bg-[#2c523d] shadow-sm transition-all flex items-center gap-2" style="background: var(--accent-green);">
                         <span>หาผลลัพธ์ & เริ่มจำลอง</span>
                         <span>→</span>
@@ -235,7 +223,6 @@
                 </div>
             </div>
 
-            <!-- ตารางกรอกงาน/วิชา -->
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
@@ -246,22 +233,19 @@
                             <th class="py-3 px-4 text-center">จัดการ</th>
                         </tr>
                     </thead>
-                    <tbody id="process-table-body" class="divide-y divide-gray-50 text-sm" style="border-color: var(--border-card);">
-                        <!-- แถวจะถูกสร้างขึ้นอัตโนมัติจาก Default List -->
-                    </tbody>
+                    <tbody id="process-table-body" class="divide-y divide-gray-50 text-sm" style="border-color: var(--border-card);"></tbody>
                 </table>
             </div>
 
             <div class="flex justify-between items-center pt-2 border-t border-gray-100 flex-wrap gap-3" style="border-color: var(--border-card);">
                 <div class="flex items-center gap-2 flex-wrap">
-                    <button onclick="addRow()" class="text-xs font-semibold text-[#3B6E52] bg-[#EBF3ED] hover:bg-[#DDEBDE] border border-[#D5E3DA] px-4 py-2 rounded-xl transition-colors" style="color: var(--accent-green); background: var(--accent-light); border-color: var(--accent-light-border);">+ เพิ่มชื่องาน / วิชา</button>
-                    <button onclick="randomizeProblem()" class="text-xs font-semibold text-[#3B6E52] bg-[#EBF3ED] hover:bg-[#DDEBDE] border border-[#D5E3DA] px-4 py-2 rounded-xl transition-colors flex items-center gap-1" style="color: var(--accent-green); background: var(--accent-light); border-color: var(--accent-light-border);">🎲 สุ่มโจทย์</button>
+                    <button onclick="addRow()" class="text-xs font-semibold text-[#3B6E52] bg-[#EBF3ED] hover:bg-[#DDEBDE] border border-[#D5E3DA] px-4 py-2 rounded-xl transition-colors" style="color: var(--accent-green);">+ เพิ่มงาน / วิชา</button>
+                    <button onclick="randomizeProblem()" class="text-xs font-semibold text-[#3B6E52] bg-[#EBF3ED] hover:bg-[#DDEBDE] border border-[#D5E3DA] px-4 py-2 rounded-xl transition-colors" style="color: var(--accent-green);">🎲 สุ่มโจทย์</button>
                     <button onclick="resetToDefaults()" class="text-xs font-medium text-gray-500 hover:text-gray-700 px-3 py-2 rounded-xl transition-colors">🔄 คืนค่าเริ่มต้น</button>
                 </div>
-                <span class="text-xs text-gray-400">กรอกข้อมูลให้ครบแล้วกดปุ่ม "หาผลลัพธ์ & เริ่มจำลอง" ด้านบน</span>
+                <span class="text-xs text-gray-400">กรอกข้อมูลให้ครบแล้วกดปุ่ม "หาผลลัพธ์ & เริ่มจำลอง" ได้เลย</span>
             </div>
 
-            <!-- ข้อความ Error Validation (ไม่ใช้ alert) -->
             <div id="error-container" class="hidden p-4 rounded-xl border border-red-200 bg-red-50 text-red-700 text-xs space-y-1">
                 <div class="font-bold flex items-center gap-1.5">
                     <span>⚠️ กรุณาตรวจสอบข้อมูลที่กรอก:</span>
@@ -270,7 +254,6 @@
             </div>
         </div>
 
-        <!-- SECTION: ตารางเปรียบเทียบทั้ง 3 อัลกอริทึม (Summary Comparison) -->
         <div id="compare-section" class="card-box p-6 sm:p-8 space-y-6">
             <div class="flex justify-between items-center flex-wrap gap-2">
                 <div class="flex items-center gap-3">
@@ -293,21 +276,18 @@
                             <th class="py-3 px-4 text-center">ผลการประเมิน</th>
                         </tr>
                     </thead>
-                    <tbody id="compare-table-body" class="divide-y divide-gray-50" style="border-color: var(--border-card);">
-                        <!-- แถวเปรียบเทียบ 3 ตัว -->
-                    </tbody>
+                    <tbody id="compare-table-body" class="divide-y divide-gray-50" style="border-color: var(--border-card);"></tbody>
                 </table>
             </div>
         </div>
 
-        <!-- SECTION 02: SPLIT BY QUANTUM (สำหรับ Round Robin) -->
         <div id="split-section" class="card-box p-6 sm:p-8 space-y-4">
             <div class="flex justify-between items-center">
                 <div class="flex items-center gap-3">
                     <span class="text-xs font-bold text-[#3B6E52] bg-[#EBF3ED] px-3 py-1.5 rounded-lg border border-[#D5E3DA]" style="color: var(--accent-green); background: var(--accent-light); border-color: var(--accent-light-border);">02</span>
                     <div>
                         <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">SPLIT BY QUANTUM</span>
-                        <h2 class="text-xl font-bold text-gray-900" style="color: var(--text-heading);">แบ่ง Burst Time ตามค่า Quantum ($Q$)</h2>
+                        <h2 class="text-xl font-bold text-gray-900" style="color: var(--text-heading);">แบ่ง Burst Time ตามค่า Quantum (Q)</h2>
                     </div>
                 </div>
                 <span id="q-badge" class="text-xs font-bold text-[#3B6E52] bg-[#EBF3ED] px-3 py-1 rounded-full border border-[#D5E3DA]" style="color: var(--accent-green); background: var(--accent-light); border-color: var(--accent-light-border);">Q = 2</span>
@@ -315,7 +295,6 @@
             <div id="split-container" class="overflow-x-auto space-y-3 pt-2"></div>
         </div>
 
-        <!-- SECTION 03 & 04: GANTT CHART ภาพรวม Scheduler พร้อมตัวควบคุมเวลา -->
         <div id="timeline-section" class="card-box p-6 sm:p-8 space-y-6">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div class="flex items-center gap-3">
@@ -325,24 +304,21 @@
                         <h2 class="text-xl font-bold text-gray-900" style="color: var(--text-heading);">Gantt Chart ภาพรวม Scheduler (<span id="current-algo-label">Round Robin</span>)</h2>
                     </div>
                 </div>
-                <span id="time-counter-badge" class="text-xs font-semibold text-[#3B6E52] bg-[#EBF3ED] px-3 py-1 rounded-full border border-[#D5E3DA]" style="color: var(--accent-green); background: var(--accent-light); border-color: var(--accent-light-border);">t = 0 / 22</span>
+                <span id="time-counter-badge" class="text-xs font-semibold text-[#3B6E52] bg-[#EBF3ED] px-3 py-1 rounded-full border border-[#D5E3DA]" style="color: var(--accent-green); background: var(--accent-light); border-color: var(--accent-light-border);">เวลา 0</span>
             </div>
-            <p class="text-xs text-gray-500" style="color: var(--text-muted);">แสดงลำดับการใช้ CPU ทั้งหมดตั้งแต่ต้นจนจบ รวมช่วง Idle บล็อกกว้างตามระยะเวลา พร้อมตัวเลขเวลาใต้ขอบบล็อก และปุ่มควบคุมดูทีละหน่วยเวลา</p>
+            <p class="text-xs text-gray-500" style="color: var(--text-muted);">แสดงลำดับการใช้ CPU ทั้งหมดตั้งแต่ต้นจนจบ พร้อมเคลื่อนย้ายตามเวลา t</p>
 
-            <!-- แผงควบคุม (Controls) -->
             <div class="flex flex-wrap items-center gap-3 pt-2">
-                <button onclick="resetTimeline()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-[#EBF3ED] text-[#3B6E52] border border-[#D5E3DA] hover:bg-[#DDEBDE] transition-all" style="color: var(--accent-green); background: var(--accent-light); border-color: var(--accent-light-border);">เริ่มใหม่</button>
-                <button onclick="stepTimeline(-1)" class="px-4 py-2 rounded-xl text-xs font-semibold bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200 transition-all">← ย้อนเวลา 1 หน่วย</button>
+                <button onclick="resetTimeline()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-[#EBF3ED] text-[#3B6E52] border border-[#D5E3DA] hover:bg-[#DDEBDE] transition-all" style="color: var(--accent-green);">↺ รีเซ็ต</button>
+                <button onclick="stepTimeline(-1)" class="px-4 py-2 rounded-xl text-xs font-semibold bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200 transition-all">← ย้อนกลับ</button>
                 <button onclick="playTimeline()" id="play-btn" class="px-4 py-2 rounded-xl text-xs font-semibold bg-[#3B6E52] text-white hover:bg-[#2c523d] transition-all" style="background: var(--accent-green);">▶ เล่นภาพรวม</button>
-                <button onclick="stepTimeline(1)" class="px-4 py-2 rounded-xl text-xs font-semibold bg-[#EBF3ED] text-[#3B6E52] border border-[#D5E3DA] hover:bg-[#DDEBDE] transition-all" style="color: var(--accent-green); background: var(--accent-light); border-color: var(--accent-light-border);">เดินเวลา 1 หน่วย →</button>
+                <button onclick="stepTimeline(1)" class="px-4 py-2 rounded-xl text-xs font-semibold bg-[#EBF3ED] text-[#3B6E52] border border-[#D5E3DA] hover:bg-[#DDEBDE] transition-all" style="color: var(--accent-green);">ถัดไป →</button>
             </div>
 
-            <!-- Gantt Chart แสดงผลแบบมีไฮไลต์ตามเวลา t และตัวเลขเวลาใต้ขอบบล็อก -->
             <div class="overflow-x-auto py-2">
                 <div id="gantt-container" class="flex items-stretch gap-1.5 min-w-max pb-2"></div>
             </div>
 
-            <!-- Slider เลือกเวลา -->
             <div class="space-y-2 pt-2">
                 <div class="flex justify-between text-xs text-gray-400">
                     <span>เลือกเวลา t</span>
@@ -351,13 +327,11 @@
                 <input type="range" id="time-slider" min="0" max="22" value="0" oninput="onSliderChange(this.value)" class="w-full accent-[#3B6E52] cursor-pointer">
             </div>
 
-            <!-- กล่องข้อความอธิบายสถานะปัจจุบัน -->
             <div id="timeline-status-box" class="p-4 rounded-xl text-xs font-medium" style="background: var(--status-box-bg); border: 1px solid var(--status-box-border); color: var(--text-main);">
                 กรอกข้อมูลและกดปุ่ม "หาผลลัพธ์ & เริ่มจำลอง" เพื่อแสดงตารางเวลา
             </div>
         </div>
 
-        <!-- SECTION 04: สรุปผลและตารางคำนวณ -->
         <div id="result-section" class="card-box p-6 sm:p-8 space-y-6">
             <div class="flex items-center gap-3">
                 <span class="text-xs font-bold text-[#3B6E52] bg-[#EBF3ED] px-3 py-1.5 rounded-lg border border-[#D5E3DA]" style="color: var(--accent-green); background: var(--accent-light); border-color: var(--accent-light-border);">04</span>
@@ -394,15 +368,9 @@
                 </div>
             </div>
         </div>
-
     </div>
 
-    <!-- =========================================================
-         JAVASCRIPT LOGIC
-         ========================================================= -->
     <script>
-        // Default processes matching both the task names & prompt requirements:
-        // P1(0,5), P2(1,3), P3(2,8), P4(3,6), Quantum = 2
         const DEFAULT_PROCS = [
             { shortId: "P1", name: "โปรเจกต์ OS", at: 0, bt: 5, color: "#3B6E52" },
             { shortId: "P2", name: "รายงานเน็ตเวิร์ก", at: 1, bt: 3, color: "#D97706" },
@@ -416,20 +384,28 @@
         let currentSimulationData = null;
         let currentTimeIndex = 0;
         let playInterval = null;
-
-        // Cache simulations for comparison
         let allSimulations = { fcfs: null, sjf: null, rr: null };
 
-        // Natural sort helper (P2 comes before P10)
         function naturalCompare(a, b) {
             return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
         }
 
-        // --- ALGORITHMS (Ported exactly from cpu_scheduling.py) ---
+        function toggleTheme() {
+            const root = document.documentElement;
+            const current = root.getAttribute('data-theme');
+            if (current === 'dark') {
+                root.removeAttribute('data-theme');
+                document.getElementById('themeLabel').innerText = 'ธีม: อัตโนมัติ';
+                document.getElementById('themeIcon').innerText = '🌓';
+            } else {
+                root.setAttribute('data-theme', 'dark');
+                document.getElementById('themeLabel').innerText = 'ธีม: มืด';
+                document.getElementById('themeIcon').innerText = '🌙';
+            }
+        }
 
         function simulateFCFS(processes) {
             let list = JSON.parse(JSON.stringify(processes));
-            // Sorted by AT, then natural sort on id
             list.sort((a, b) => {
                 if (a.at !== b.at) return a.at - b.at;
                 return naturalCompare(a.shortId, b.shortId);
@@ -509,7 +485,6 @@
                     continue;
                 }
 
-                // Min by (bt, at, shortId) using natural sort
                 available.sort((a, b) => {
                     if (a.bt !== b.bt) return a.bt - b.bt;
                     if (a.at !== b.at) return a.at - b.at;
@@ -539,7 +514,6 @@
                 resultsDict[p.shortId] = { ...p, ct, tat, wt };
             }
 
-            // Sorted by id naturally for results table
             let sortedProcs = JSON.parse(JSON.stringify(processes)).sort((a, b) => naturalCompare(a.shortId, b.shortId));
             let results = sortedProcs.map(p => resultsDict[p.shortId]);
 
@@ -562,7 +536,6 @@
             let completed = 0;
             let gantt = [];
 
-            // inarrival sorted by (at, shortId) naturally
             let inarrival = [...list].sort((a, b) => {
                 if (a.at !== b.at) return a.at - b.at;
                 return naturalCompare(a.shortId, b.shortId);
@@ -647,8 +620,6 @@
             return { results, avgTat, avgWt, gantt };
         }
 
-        // --- UI & TAB SWITCHING ---
-
         function changeAlgorithm(algo) {
             currentAlgo = algo;
             const buttons = ['rr', 'sjf', 'fcfs', 'compare'];
@@ -666,7 +637,6 @@
                 }
             });
 
-            // Toggle visibility of sections based on selection
             const quantumBox = document.getElementById('quantum-box');
             const splitSection = document.getElementById('split-section');
             const timelineSection = document.getElementById('timeline-section');
@@ -679,7 +649,6 @@
                 timelineSection.style.display = 'none';
                 resultSection.style.display = 'none';
                 compareSection.style.display = 'block';
-                // scroll to comparison
                 compareSection.scrollIntoView({ behavior: 'smooth' });
             } else {
                 quantumBox.style.display = (algo === 'rr') ? 'flex' : 'none';
@@ -699,8 +668,6 @@
 
             runSimulation();
         }
-
-        // --- ROW MANAGEMENT (Add, Remove, Renumber) ---
 
         function addRow(name = "", at = 0, bt = 2) {
             const tbody = document.getElementById('process-table-body');
@@ -725,7 +692,7 @@
                     <input type="number" value="${bt}" min="1" step="1" class="bt-input input-box w-28 px-3 py-1.5 text-sm font-medium tabular-nums text-right">
                 </td>
                 <td class="py-3 px-4 text-center">
-                    <button type="button" onclick="removeRow(this)" class="btn-remove text-gray-400 hover:text-red-500 font-bold px-2.5 py-1 rounded-lg transition-colors text-xs" title="ลบ Process">✕ ลบ</button>
+                    <button type="button" onclick="removeRow(this)" class="btn-remove text-gray-400 hover:text-red-500 font-bold px-2.5 py-1 rounded-lg transition-colors text-xs" title="ลบ Process">✕</button>
                 </td>
             `;
             tbody.appendChild(row);
@@ -734,7 +701,7 @@
 
         function removeRow(btn) {
             const tbody = document.getElementById('process-table-body');
-            if (tbody.rows.length <= 1) return; // Keep at least 1 row
+            if (tbody.rows.length <= 1) return;
             btn.closest('tr').remove();
             renumberRows();
         }
@@ -756,7 +723,6 @@
                 const nameInput = row.querySelector('.name-input');
                 if (nameInput) {
                     nameInput.style.color = taskColor;
-                    // Auto-update (P...) in name if present
                     if (nameInput.value.match(/\(P\d+\)/)) {
                         nameInput.value = nameInput.value.replace(/\(P\d+\)/, `(${pid})`);
                     }
@@ -774,9 +740,7 @@
         function resetToDefaults() {
             const tbody = document.getElementById('process-table-body');
             tbody.innerHTML = '';
-            DEFAULT_PROCS.forEach(p => {
-                addRow(p.name, p.at, p.bt);
-            });
+            DEFAULT_PROCS.forEach(p => addRow(p.name, p.at, p.bt));
             document.getElementById('quantum').value = 2;
             clearErrors();
             runSimulation();
@@ -800,35 +764,25 @@
                 "วิเคราะห์ระบบ SA"
             ];
 
-            // Randomize process count between 3 and 5
-            const count = Math.floor(Math.random() * 3) + 3; // 3, 4, or 5
-            
-            // Shuffle subjects to pick unique ones
+            const count = Math.floor(Math.random() * 3) + 3;
             const shuffledSubjects = [...subjectPool].sort(() => 0.5 - Math.random());
-            
             const tbody = document.getElementById('process-table-body');
             tbody.innerHTML = '';
 
             let currentAt = 0;
             for (let i = 0; i < count; i++) {
                 const subName = shuffledSubjects[i] || `วิชาที่ ${i + 1}`;
-                // AT: first process mostly 0 (or occasionally 1), next processes increase gradually
                 const at = (i === 0) ? (Math.random() < 0.8 ? 0 : 1) : currentAt + Math.floor(Math.random() * 3);
                 currentAt = at;
-                // BT: between 1 and 9
-                const bt = Math.floor(Math.random() * 8) + 1; // 1 to 8
+                const bt = Math.floor(Math.random() * 8) + 1;
                 addRow(subName, at, bt);
             }
 
-            // Randomize Time Quantum between 2 and 4
-            const randomQ = Math.floor(Math.random() * 3) + 2; // 2, 3, or 4
+            const randomQ = Math.floor(Math.random() * 3) + 2;
             document.getElementById('quantum').value = randomQ;
-
             clearErrors();
             runSimulation();
         }
-
-        // --- VALIDATION & DATA COLLECTION ---
 
         function clearErrors() {
             const errBox = document.getElementById('error-container');
@@ -871,7 +825,6 @@
                 const atStr = atInput ? atInput.value.trim() : "";
                 const btStr = btInput ? btInput.value.trim() : "";
 
-                // Validate AT
                 if (atStr === "" || isNaN(Number(atStr))) {
                     errors.push(`${pid}: Arrival Time (AT) ต้องเป็นตัวเลขจำนวนเต็ม`);
                     atInput.classList.add('input-invalid');
@@ -883,7 +836,6 @@
                     }
                 }
 
-                // Validate BT
                 if (btStr === "" || isNaN(Number(btStr))) {
                     errors.push(`${pid}: Burst Time (BT) ต้องเป็นตัวเลขจำนวนเต็ม`);
                     btInput.classList.add('input-invalid');
@@ -905,7 +857,6 @@
                 });
             });
 
-            // Validate Quantum
             const qInput = document.getElementById('quantum');
             const qStr = qInput.value.trim();
             let quantum = 0;
@@ -930,8 +881,6 @@
             return { procs, quantum };
         }
 
-        // --- SIMULATION EXECUTION & RENDERING ---
-
         function runSimulation() {
             if (playInterval) clearInterval(playInterval);
             const data = getValidatedProcesses();
@@ -940,22 +889,17 @@
             const { procs, quantum } = data;
             document.getElementById('q-badge').innerText = `Q = ${quantum}`;
 
-            // Run all 3 algorithms for comparison
             allSimulations.fcfs = simulateFCFS(procs);
             allSimulations.sjf = simulateSJF(procs);
             allSimulations.rr = simulateRR(procs, quantum);
-
-            // Render comparison table
             renderComparisonTable(allSimulations, quantum);
 
-            // Active simulation based on tab
             let res;
             if (currentAlgo === 'fcfs') {
                 res = allSimulations.fcfs;
             } else if (currentAlgo === 'sjf') {
                 res = allSimulations.sjf;
             } else {
-                // 'rr' or 'compare'
                 res = allSimulations.rr;
                 renderSplitQuantum(procs, quantum);
             }
@@ -971,8 +915,6 @@
             renderTable(res.results, res.avgTat, res.avgWt);
             updateTimelineUI();
         }
-
-        // --- COMPARISON TABLE RENDERING ---
 
         function renderComparisonTable(sims, quantum) {
             const tbody = document.getElementById('compare-table-body');
@@ -998,16 +940,58 @@
                     <td class="py-3 px-4 text-right tabular-nums font-bold ${isBest ? 'text-emerald-700' : ''}">${item.res.avgWt.toFixed(2)}</td>
                     <td class="py-3 px-4 text-right tabular-nums">${item.res.avgTat.toFixed(2)}</td>
                     <td class="py-3 px-4 text-center">
-                        ${isBest 
-                            ? `<span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-800 bg-emerald-100 border border-emerald-300 px-2.5 py-1 rounded-full">🏆 ดีที่สุด (เวลารอคอยต่ำสุด)</span>`
-                            : `<span class="text-xs text-gray-400">-</span>`}
+                        ${isBest ? '<span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-800 bg-emerald-100 border border-emerald-300 px-2.5 py-1 rounded-full">🏆 ดีที่สุด</span>' : '<span class="text-xs text-gray-400">-</span>'}
                     </td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        // --- TIMELINE & GANTT CHART CONTROLS ---
+        function renderTable(results, avgTat, avgWt) {
+            const tbody = document.getElementById('output-table-body');
+            tbody.innerHTML = '';
+
+            results.forEach(p => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-gray-50/50';
+                tr.innerHTML = `
+                    <td class="py-3 px-4"><span class="font-semibold" style="color: ${p.color};">${p.shortId}</span> ${p.name}</td>
+                    <td class="py-3 px-4 text-right tabular-nums">${p.at}</td>
+                    <td class="py-3 px-4 text-right tabular-nums">${p.bt}</td>
+                    <td class="py-3 px-4 text-right tabular-nums">${p.ct}</td>
+                    <td class="py-3 px-4 text-right tabular-nums">${p.tat}</td>
+                    <td class="py-3 px-4 text-right tabular-nums">${p.wt}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('avg-tat').innerHTML = `${avgTat.toFixed(2)} <span class="text-sm font-normal text-gray-500">หน่วยเวลา</span>`;
+            document.getElementById('avg-wt').innerHTML = `${avgWt.toFixed(2)} <span class="text-sm font-normal text-gray-500">หน่วยเวลา</span>`;
+        }
+
+        function renderSplitQuantum(procs, quantum) {
+            const container = document.getElementById('split-container');
+            container.innerHTML = '';
+
+            procs.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'rounded-xl border border-dashed p-3';
+                div.style.borderColor = 'var(--border-subtle)';
+
+                const parts = [];
+                for (let i = 0; i < p.bt; i += quantum) {
+                    parts.push(Math.min(quantum, p.bt - i));
+                }
+
+                div.innerHTML = `
+                    <div class="text-xs font-bold mb-2" style="color: ${p.color};">${p.shortId}: ${p.name}</div>
+                    <div class="flex flex-wrap gap-2">
+                        ${parts.map(v => `<span class="px-2 py-1 rounded-lg text-xs font-bold" style="background:${p.color}15;color:${p.color};border:1px solid ${p.color}33;">${v}</span>`).join('')}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
 
         function stepTimeline(dir) {
             if (!currentSimulationData || !currentSimulationData.gantt.length) return;
@@ -1055,152 +1039,58 @@
         }
 
         function updateTimelineUI() {
-            if (!currentSimulationData || !currentSimulationData.gantt.length) return;
-            const maxTime = currentSimulationData.gantt[currentSimulationData.gantt.length - 1].end;
-            document.getElementById('time-counter-badge').innerText = `t = ${currentTimeIndex} / ${maxTime}`;
-            document.getElementById('slider-label').innerText = `${currentTimeIndex} / ${maxTime}`;
-
-            const container = document.getElementById('gantt-container');
-            container.innerHTML = '';
-
-            currentSimulationData.gantt.forEach(b => {
-                const duration = b.end - b.start;
-                const isActive = currentTimeIndex >= b.start && currentTimeIndex < b.end;
-                const isPassed = currentTimeIndex >= b.end;
-
-                // Width proportional to duration with min-width
-                const minW = Math.max(88, duration * 26);
-
-                let cardClasses = 'border rounded-xl p-3 flex flex-col items-center justify-between transition-all';
-                let styleAttr = `min-width: ${minW}px; flex: ${duration};`;
-
-                if (b.isIdle) {
-                    // Idle striped
-                    cardClasses += ' gantt-idle-stripe';
-                } else if (isActive) {
-                    cardClasses += ' ring-2 ring-[#3B6E52] shadow-md';
-                    styleAttr += ` background-color: ${b.color}25; border-color: ${b.color}; color: ${b.color};`;
-                } else if (isPassed) {
-                    cardClasses += ' opacity-60 border-gray-200 bg-gray-50 text-gray-500';
-                } else {
-                    styleAttr += ` background-color: ${b.color}15; border-color: ${b.color}50; color: ${b.color};`;
-                }
-
-                container.innerHTML += `
-                    <div class="${cardClasses}" style="${styleAttr}">
-                        <div class="text-xs font-bold text-center truncate max-w-full">${b.process}</div>
-                        <div class="text-[10px] text-gray-500 mt-1">${duration} unit</div>
-                        <div class="flex justify-between w-full text-[10px] font-bold text-gray-400 mt-2 border-t border-gray-200/60 pt-1 tabular-nums">
-                            <span>${b.start}</span>
-                            <span>${b.end}</span>
-                        </div>
-                    </div>
-                `;
-            });
-
-            let activeBlock = currentSimulationData.gantt.find(b => currentTimeIndex >= b.start && currentTimeIndex < b.end);
-            let statusText = activeBlock 
-                ? `ณ เวลา t = ${currentTimeIndex} ➔ ${activeBlock.desc}` 
-                : `ณ เวลา t = ${currentTimeIndex} ➔ การจำลองเสร็จสิ้นสมบูรณ์ (เวลาทั้งหมด: ${maxTime} หน่วย)`;
-            document.getElementById('timeline-status-box').innerText = statusText;
-        }
-
-        function renderSplitQuantum(procs, quantum) {
-            const container = document.getElementById('split-container');
-            container.innerHTML = '';
-            procs.forEach(p => {
-                let btLeft = p.bt;
-                let partCount = Math.ceil(p.bt / quantum);
-                let htmlParts = '';
-
-                for (let i = 1; i <= partCount; i++) {
-                    let slice = Math.min(quantum, btLeft);
-                    btLeft -= slice;
-                    htmlParts += `
-                        <div class="flex flex-col items-center justify-center border rounded-xl p-2 min-w-[70px] shadow-sm" style="background-color: ${p.color}15; border-color: ${p.color}40; color: ${p.color};">
-                            <span class="text-[11px] font-bold">${p.shortId}.${i}</span>
-                            <span class="text-[10px] opacity-75">${slice} units</span>
-                        </div>
-                    `;
-                }
-
-                container.innerHTML += `
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 p-3 rounded-xl border border-gray-100" style="background: var(--status-box-bg); border-color: var(--status-box-border);">
-                        <div class="w-40 shrink-0">
-                            <span class="text-xs font-bold" style="color: ${p.color};">${p.shortId} (${p.name})</span>
-                            <div class="text-[10px] text-gray-400">AT: ${p.at} · BT: ${p.bt}</div>
-                        </div>
-                        <div class="flex items-center gap-2 overflow-x-auto w-full py-1">${htmlParts}</div>
-                    </div>
-                `;
-            });
-        }
-
-        function renderTable(results, avgTat, avgWt) {
-            const tbody = document.getElementById('output-table-body');
-            tbody.innerHTML = '';
-            results.forEach(r => {
-                tbody.innerHTML += `
-                    <tr class="hover:bg-gray-50/50">
-                        <td class="py-3 px-4 font-semibold">
-                            <span style="color: ${r.color || '#3B6E52'};">${r.shortId}</span> 
-                            <span class="font-normal text-gray-700">- ${r.name || r.id}</span>
-                        </td>
-                        <td class="py-3 px-4 text-right text-gray-600 tabular-nums">${r.at}</td>
-                        <td class="py-3 px-4 text-right text-gray-600 tabular-nums">${r.bt}</td>
-                        <td class="py-3 px-4 text-right font-medium text-gray-900 tabular-nums">${r.ct}</td>
-                        <td class="py-3 px-4 text-right font-medium text-gray-900 tabular-nums">${r.tat}</td>
-                        <td class="py-3 px-4 text-right font-bold text-emerald-700 tabular-nums">${r.wt}</td>
-                    </tr>
-                `;
-            });
-            document.getElementById('avg-tat').innerHTML = `${avgTat.toFixed(2)} <span class="text-sm font-normal text-gray-500">หน่วยเวลา</span>`;
-            document.getElementById('avg-wt').innerHTML = `${avgWt.toFixed(2)} <span class="text-sm font-normal text-gray-500">หน่วยเวลา</span>`;
-        }
-
-        // --- THEME TOGGLING ---
-
-        const THEMES = ['auto', 'light', 'dark'];
-        let currentThemeIndex = 0;
-
-        function applyTheme(theme) {
-            const root = document.documentElement;
-            const icon = document.getElementById('themeIcon');
-            const label = document.getElementById('themeLabel');
-
-            if (theme === 'auto') {
-                root.removeAttribute('data-theme');
-                icon.innerText = '🌓';
-                label.innerText = 'ธีม: อัตโนมัติ';
-            } else if (theme === 'light') {
-                root.setAttribute('data-theme', 'light');
-                icon.innerText = '☀️';
-                label.innerText = 'ธีม: สว่าง';
-            } else if (theme === 'dark') {
-                root.setAttribute('data-theme', 'dark');
-                icon.innerText = '🌙';
-                label.innerText = 'ธีม: มืด';
+            if (!currentSimulationData || !currentSimulationData.gantt.length) {
+                document.getElementById('timeline-status-box').innerText = 'กรอกข้อมูลและกดปุ่ม "หาผลลัพธ์ & เริ่มจำลอง" เพื่อแสดงตารางเวลา';
+                document.getElementById('gantt-container').innerHTML = '';
+                document.getElementById('slider-label').innerText = `0 / 0`;
+                document.getElementById('time-counter-badge').innerText = 'เวลา 0';
+                return;
             }
-        }
 
-        function toggleTheme() {
-            currentThemeIndex = (currentThemeIndex + 1) % THEMES.length;
-            const theme = THEMES[currentThemeIndex];
-            applyTheme(theme);
-            localStorage.setItem('user_theme_pref', theme);
-        }
+            const maxTime = currentSimulationData.gantt[currentSimulationData.gantt.length - 1].end;
+            const slider = document.getElementById('time-slider');
+            slider.max = maxTime;
+            slider.value = currentTimeIndex;
+            document.getElementById('slider-label').innerText = `${currentTimeIndex} / ${maxTime}`;
+            document.getElementById('time-counter-badge').innerText = `เวลา ${currentTimeIndex}`;
 
-        // --- INITIALIZATION ---
+            const ganttContainer = document.getElementById('gantt-container');
+            ganttContainer.innerHTML = '';
+
+            currentSimulationData.gantt.forEach((segment) => {
+                const block = document.createElement('div');
+                const duration = segment.end - segment.start;
+                const isCurrent = currentTimeIndex >= segment.start && currentTimeIndex < segment.end;
+                const isPast = currentTimeIndex >= segment.end;
+
+                block.className = 'relative flex-shrink-0 border rounded-lg px-2 py-2 text-center text-[10px] font-bold';
+                block.style.minWidth = `${Math.max(60, duration * 46)}px`;
+                block.style.height = '64px';
+                block.style.width = `${Math.max(60, duration * 46)}px`;
+                block.style.borderColor = segment.isIdle ? 'rgba(148,163,155,0.5)' : (segment.color || '#3B6E52');
+                block.style.background = segment.isIdle ? 'repeating-linear-gradient(-45deg, var(--idle-stripe-1), var(--idle-stripe-1) 8px, var(--idle-stripe-2) 8px, var(--idle-stripe-2) 16px)' : `${segment.color || '#3B6E52'}22`;
+                block.style.color = segment.isIdle ? 'var(--text-muted)' : '#111827';
+                block.style.boxShadow = isCurrent ? `0 0 0 2px ${segment.color || '#3B6E52'}` : 'none';
+                block.style.opacity = isPast ? '0.85' : '1';
+
+                const label = document.createElement('div');
+                label.className = 'font-bold mb-1';
+                label.innerText = segment.isIdle ? 'Idle' : segment.shortId;
+                block.appendChild(label);
+
+                const timeRow = document.createElement('div');
+                timeRow.className = 'absolute bottom-1 left-0 right-0 text-[9px] font-medium tabular-nums';
+                timeRow.innerText = `${segment.start} → ${segment.end}`;
+                block.appendChild(timeRow);
+
+                ganttContainer.appendChild(block);
+            });
+
+            const status = currentSimulationData.gantt.find(seg => currentTimeIndex >= seg.start && currentTimeIndex < seg.end) || { desc: 'ไม่มีกิจกรรมในเวลานี้' };
+            document.getElementById('timeline-status-box').innerText = status.desc || 'ไม่มีกิจกรรมในเวลานี้';
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const saved = localStorage.getItem('user_theme_pref');
-            if (saved && THEMES.includes(saved)) {
-                currentThemeIndex = THEMES.indexOf(saved);
-                applyTheme(saved);
-            } else {
-                applyTheme('auto');
-            }
-
             resetToDefaults();
         });
     </script>
